@@ -19,14 +19,15 @@ makeCacheMatrix <- function(x = matrix()) {
 
 ## Returns the inverse of a matrix.  If a cached inverse exists, that is returned
 cacheSolve <- function(x, ...) {
-    inv <- x$getinv()
+  #Note: this function only useable by makeCacheMatrix function objects
+    inv <- x$getinv() # check whether the inverse has been computed before
     if(!is.null(inv)) {
       message("getting cached data")
       return(inv)
     }
-    data <- x$get()
-    inv <- solve(data, ...)
-    x$setinv(inv)
+    data <- x$get() 
+    inv <- solve(data, ...) # maybe need error handling if the matrix is singular?
+    x$setinv(inv) # update the cache with the newly computed inverse
     inv
 }
 
